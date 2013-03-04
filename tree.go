@@ -23,23 +23,31 @@ func (t *Tree) Insert(key string, value string) {
 		t.root.key = key
 		t.root.value = value
 		t.size++
+	}	else {
+		t.root.insertHelper(key, value)
+
+		t.size++
 	}
 }
 
-func (node *Node) insertHelper(key string, value string) {
+func (node *Node) insertHelper(key string, value string) *Node {
 	if(node == nil) {
 		node = new(Node)
 		node.key = key
 		node.value = value
+
+		return node
 	}
 
 	if(node.key > key) {
-		node.left.insertHelper(key, value)
+		node.left = node.left.insertHelper(key, value)
 	}
 
 	if(node.key < key) {
-		node.right.insertHelper(key, value)
+		node.right = node.right.insertHelper(key, value)
 	}
+
+	return nil
 }
 
 func (t *Tree) Get(key string) string {
@@ -57,7 +65,7 @@ func (t *Tree) Get(key string) string {
 		}
 	}
 
-	return ""
+	return t.root.getHelper(key)
 }
 
 
