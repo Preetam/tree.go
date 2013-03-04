@@ -1,5 +1,7 @@
 package tree
 
+import "fmt"
+
 type Tree struct {
 	root *Node
 	size int
@@ -18,16 +20,9 @@ func Create() *Tree {
 }
 
 func (t *Tree) Insert(key string, value string) {
-	if t.root == nil {
-		t.root = new(Node)
-		t.root.key = key
-		t.root.value = value
-		t.size++
-	}	else {
-		t.root.insertHelper(key, value)
+		t.root = t.root.insertHelper(key, value)
 
 		t.size++
-	}
 }
 
 func (node *Node) insertHelper(key string, value string) *Node {
@@ -35,34 +30,24 @@ func (node *Node) insertHelper(key string, value string) *Node {
 		node = new(Node)
 		node.key = key
 		node.value = value
-
-		return node
 	}
 
 	if(node.key > key) {
+		fmt.Println(key, "less than", node.key)
 		node.left = node.left.insertHelper(key, value)
 	}
 
 	if(node.key < key) {
+		fmt.Println(key, "greater than", node.key)
 		node.right = node.right.insertHelper(key, value)
 	}
 
-	return nil
+	return node
 }
 
 func (t *Tree) Get(key string) string {
 	if t.size == 0 {
 		return ""
-	}
-
-	if t.size == 1 {
-		if(t.root.key == key) {
-			return t.root.value
-		}
-
-		if(t.root.key != key) {
-			return ""
-		}
 	}
 
 	return t.root.getHelper(key)
@@ -78,11 +63,11 @@ func (node *Node) getHelper(key string) string {
 		return node.value
 	}
 
-	if(node.key < key) {
+	if(node.key > key) {
 		return node.left.getHelper(key)
 	}
 
-	if(node.key > key) {
+	if(node.key < key) {
 		return node.right.getHelper(key)
 	}
 
