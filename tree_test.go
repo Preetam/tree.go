@@ -15,7 +15,11 @@ func Test1(t *testing.T) {
 func Test2(t *testing.T) {
 	tree := Create()
 	tree.Insert("a", "val")
-	val := tree.Get("a")
+	val, err := tree.Get("a")
+
+	if(err != nil) {
+		t.Error(err)
+	}
 
 	if tree.size != 1 {
 		t.Errorf("blah")
@@ -31,9 +35,20 @@ func Test3(t *testing.T) {
 	tree.Insert("b", "B")
 	tree.Insert("c", "C")
 	tree.Insert("a", "A")
-	valA := tree.Get("a")
-	valB := tree.Get("b")
-	valC := tree.Get("c")
+	valA, errA := tree.Get("a")
+	valB, errB := tree.Get("b")
+	valC, errC := tree.Get("c")
+
+
+	if(errA != nil) {
+		t.Error(errA)
+	}
+	if(errB != nil) {
+		t.Error(errB)
+	}
+	if(errC != nil) {
+		t.Error(errC)
+	}
 
 	if tree.size != 3 {
 		t.Errorf("blah %v", tree.size)
